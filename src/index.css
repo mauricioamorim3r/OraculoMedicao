@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-brand-blue: #0066cc;
+  --color-brand-focus: #0071e3;
+  --color-brand-ink: #1d1d1f;
+  --color-brand-white: #ffffff;
+  --color-brand-parchment: #f5f5f7;
+  --color-brand-dark-tile: #272729;
+  --color-brand-divider: rgba(0, 0, 0, 0.08);
+
+  --color-oracle-red: #dc2626;
+  --color-oracle-red-dark: #b91c1c;
+  --color-oracle-red-bg: rgba(220,38,38,0.07);
+  --color-oracle-amber: #f59e0b;
+  --color-oracle-navy: #1e3a5f;
+  --color-oracle-navy-mid: #334155;
+  --color-oracle-surface: #f3f4f6;
+  --color-oracle-muted: #6b7280;
+  --color-oracle-canvas: #f9fafb;
+
+  --spacing-62: 15.5rem;
+  --spacing-66: 16.5rem;
+
+  --animate-bounce: bounce 1.2s infinite;
+}
+
+@utility no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--color-brand-parchment);
+  color: var(--color-brand-ink);
+}
+
+/* Typography tokens from design system */
+.ds-headline {
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+.ds-body {
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.01em;
+}
+.ds-caption {
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: -0.01em;
+}
+
+/* Scrollbar minimalista */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.2);
+}
+
+.medorac-generated-doc {
+  counter-reset: section subsection subsubsection;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: justify;
+  text-justify: inter-word;
+  padding: 2px 1px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.medorac-generated-doc :where(p, li, td, th) {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.medorac-generated-doc :where(h1, h2, h3, h4, h5, h6) {
+  color: #1e3a5f;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0.9em 0 0.45em;
+  text-align: left;
+}
+
+.medorac-generated-doc h1 {
+  counter-reset: section;
+}
+
+.medorac-generated-doc h2 {
+  counter-increment: section;
+  counter-reset: subsection;
+}
+
+.medorac-generated-doc h2::before {
+  content: counter(section) ". ";
+}
+
+.medorac-generated-doc h3 {
+  counter-increment: subsection;
+  counter-reset: subsubsection;
+}
+
+.medorac-generated-doc h3::before {
+  content: counter(section) "." counter(subsection) ". ";
+}
+
+.medorac-generated-doc h4 {
+  counter-increment: subsubsection;
+}
+
+.medorac-generated-doc h4::before {
+  content: counter(section) "." counter(subsection) "." counter(subsubsection) ". ";
+}
+
+.medorac-generated-doc :where(small, figcaption, blockquote, code) {
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.medorac-generated-doc table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.medorac-generated-doc :where(th, td) {
+  border: 1px solid rgba(30, 58, 95, 0.14);
+  padding: 6px 8px;
+  vertical-align: top;
+}
+
+@media (max-width: 768px) {
+  .medorac-generated-doc {
+    padding: 2px 1px;
+  }
+}

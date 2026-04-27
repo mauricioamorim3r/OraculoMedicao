@@ -1,0 +1,17 @@
+node_modules/
+build/
+dist/
+coverage/
+release/
+uploads/
+temp_medorac/
+output/
+.playwright-mcp/
+data/*.db
+data/*.db-*
+data/previews/
+.DS_Store
+*.log
+*.zip
+.env*
+!.env.example
