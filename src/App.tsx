@@ -721,7 +721,7 @@ export default function App() {
     return "sem fonte ativa";
   };
 
-  const buildMessageFileTitle = (messageIndex?: number | null, base = "Resposta MedOrac") => {
+  const buildMessageFileTitle = (messageIndex?: number | null, base = "Resposta do Oráculo") => {
     const sourceLabel = getSourceLabel();
     const triggerLabel = getMessageTriggerLabel(messageIndex);
     return buildTimestampedName(`${base} ${triggerLabel} ${sourceLabel}`, base);
@@ -730,7 +730,7 @@ export default function App() {
   const buildMessageFileName = (messageIndex: number | null | undefined, extension: string) => {
     const sourceLabel = getSourceLabel();
     const triggerLabel = getMessageTriggerLabel(messageIndex);
-    return `${buildTimestampedName(`${triggerLabel} ${sourceLabel}`, "Resposta MedOrac")}.${extension}`;
+    return `${buildTimestampedName(`${triggerLabel} ${sourceLabel}`, "Resposta do Oráculo")}.${extension}`;
   };
 
   const saveProfile = () => {
@@ -2734,7 +2734,7 @@ export default function App() {
                       ) : (
                          <>
                            <div className="mb-3 flex flex-wrap items-center gap-2 border-b border-black/5 pb-2">
-                             <span className="text-[10px] font-bold uppercase tracking-wide text-[#1e3a5f]">Resposta MedOrac</span>
+                            <span className="text-[10px] font-bold uppercase tracking-wide text-[#1e3a5f]">Resposta do Oráculo</span>
                              <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-semibold text-gray-500 ring-1 ring-black/5">
                                {selectedDocIds.length ? `${selectedDocIds.length} fonte${selectedDocIds.length === 1 ? "" : "s"} ativa${selectedDocIds.length === 1 ? "" : "s"}` : "sem fonte ativa"}
                              </span>
@@ -2797,7 +2797,7 @@ export default function App() {
                              <button onClick={()=>{ navigator.clipboard.writeText(msg.text); alert("Copiado!"); }} className="flex items-center gap-1.5 rounded-full border border-black/8 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gray-500 shadow-sm hover:text-oracle-red">
                                <Copy size={12}/> Copiar
                              </button>
-                             <button onClick={() => exportMessageAsWord(msg.text, buildMessageFileTitle(i, "Resposta MedOrac"))} className="flex items-center gap-1.5 rounded-full border border-black/8 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gray-500 shadow-sm hover:text-oracle-red">
+                            <button onClick={() => exportMessageAsWord(msg.text, buildMessageFileTitle(i, "Resposta do Oráculo"))} className="flex items-center gap-1.5 rounded-full border border-black/8 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gray-500 shadow-sm hover:text-oracle-red">
                                <FileDown size={12}/> Word
                              </button>
                               <button
@@ -2833,7 +2833,7 @@ export default function App() {
                                     Tabela/JSON
                                   </button>
                                   <button
-                                    onClick={() => exportMessageAsWord(msg.text, buildMessageFileTitle(i, "Resposta MedOrac"))}
+                                    onClick={() => exportMessageAsWord(msg.text, buildMessageFileTitle(i, "Resposta do Oráculo"))}
                                     className="w-full text-left px-4 py-2.5 hover:bg-gray-50 text-[12px] text-gray-700 font-medium transition-colors border-t border-black/5"
                                   >
                                     Word (.doc)
