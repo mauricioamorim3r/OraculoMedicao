@@ -1160,16 +1160,21 @@ export default function App() {
   };
 
   const [savingMessageIndex, setSavingMessageIndex] = useState<number | null>(null);
+  const [noteSavingMessageIndex, setNoteSavingMessageIndex] = useState<number | null>(null);
 
   const addNoteForMessage = async (messageIndex: number, msg: Message) => {
     if (!currentNotebookId) {
       alert("Selecione um caderno antes de criar uma nota.");
       return;
     }
-    const noteText = window.prompt("Comentário para vincular a esta análise:");
-    if (!noteText?.trim()) return;
+    const noteText = msg.text.trim();
+    if (!noteText) {
+      alert("Não há conteúdo nesta resposta para salvar como nota.");
+      return;
+    }
 
     try {
+      setNoteSavingMessageIndex(messageIndex);
       const res = await fetch("/api/notes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1178,7 +1183,7 @@ export default function App() {
           messageIndex,
           messageRole: msg.role,
           messageText: msg.text,
-          noteText: noteText.trim(),
+          noteText,
         }),
       });
       const newNote = await res.json();
@@ -1187,6 +1192,8 @@ export default function App() {
     } catch (error) {
       console.error("Failed to save note", error);
       alert("Erro ao salvar nota vinculada.");
+    } finally {
+      setNoteSavingMessageIndex(null);
     }
   };
 
@@ -2793,9 +2800,14 @@ export default function App() {
                              <button onClick={() => exportMessageAsWord(msg.text, buildMessageFileTitle(i, "Resposta MedOrac"))} className="flex items-center gap-1.5 rounded-full border border-black/8 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gray-500 shadow-sm hover:text-oracle-red">
                                <FileDown size={12}/> Word
                              </button>
-                             <button onClick={() => addNoteForMessage(i, msg)} className="flex items-center gap-1.5 rounded-full border border-black/8 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gray-500 shadow-sm hover:text-oracle-red">
-                               <StickyNote size={12}/> Anotar
-                             </button>
+                              <button
+                                onClick={() => addNoteForMessage(i, msg)}
+                                disabled={noteSavingMessageIndex === i}
+                                title="Salvar esta resposta como nota vinculada"
+                                className="flex items-center gap-1.5 rounded-full border border-black/8 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gray-500 shadow-sm hover:text-oracle-red disabled:cursor-wait disabled:opacity-60"
+                              >
+                                <StickyNote size={12}/> {noteSavingMessageIndex === i ? "Salvando..." : "Anotar"}
+                              </button>
                              <div className="relative group">
                                <button onClick={() => setSavingMessageIndex(savingMessageIndex === i ? null : i)} className="flex items-center gap-1.5 rounded-full border border-black/8 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gray-500 shadow-sm hover:text-oracle-red">
                                  <Save size={12}/> Salvar na Base
@@ -3019,7 +3031,7 @@ export default function App() {
               )}
               {notes.map(n => (
                 <div key={n.id} className="bg-white border border-black/5 rounded-xl p-3.5 mb-2 shadow-sm relative group">
-                  <p className="text-[12px] text-[#334155] leading-relaxed font-medium">{n.noteText}</p>
+                  <p className="text-[12px] text-[#334155] leading-relaxed font-medium line-clamp-6">{n.noteText}</p>
                   <div className="mt-2 rounded-lg bg-gray-50 border border-black/5 px-2.5 py-2">
                     <p className="text-[9px] text-gray-400 font-bold uppercase mb-1">
                       Origem: {n.messageRole === "model" ? "resposta da IA" : "mensagem do usuário"} {n.messageIndex !== null ? `#${n.messageIndex + 1}` : ""}
